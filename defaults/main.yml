@@ -1,0 +1,4 @@
+linux_accounts_group: "accounts"
+
+linux_accounts_additional_users: []
+linux_accounts_default_users: []

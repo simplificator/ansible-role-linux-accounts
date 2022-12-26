@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  roles:
+    - role: simplificator.linux_accounts
+
+  vars:
+    linux_accounts_additional_users: {
+      "bob": "bobssshkey"
+    }
+
+    linux_accounts_default_users: {
+      "alice": "alicessshkey"
+    }

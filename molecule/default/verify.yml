@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Check authorized key for Bob
+      lineinfile:
+        dest: /home/bob/.ssh/authorized_keys
+        line: bobssshkey
+      check_mode: true
+      register: presence
+      failed_when: presence.changed
+
+    - name: Check authorized key for Alice
+      lineinfile:
+        dest: /home/alice/.ssh/authorized_keys
+        line: alicessshkey
+      check_mode: true
+      register: presence
+      failed_when: presence.changed

@@ -1,0 +1,33 @@
+- name: "Ensure group {{ linux_accounts_group }} exists"
+  group:
+    name: "{{ linux_accounts_group }}"
+    state: present
+
+- name: "Combine variables"
+  set_fact:
+    linux_accounts_users: "{{ linux_accounts_default_users | combine(linux_accounts_additional_users) }}"
+
+- name: "Create user accounts"
+  user:
+    name: "{{ item.key }}"
+    shell: "/bin/bash"
+    groups: "{{ linux_accounts_group }}"
+    append: yes
+  loop: "{{ lookup('ansible.builtin.dict', linux_accounts_users) }}"
+
+- name: "Create .ssh directory for user accounts"
+  file:
+    path: "~{{ item.key }}/.ssh"
+    state: directory
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: 0700
+  loop: "{{ lookup('ansible.builtin.dict', linux_accounts_users) }}"
+
+- name: Add authorized key for user accounts
+  copy:
+    content: "{{ item.value }}\n"
+    dest: "~{{ item.key }}/.ssh/authorized_keys"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+  loop: "{{ lookup('ansible.builtin.dict', linux_accounts_users) }}"
