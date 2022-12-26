@@ -17,3 +17,14 @@
       check_mode: true
       register: presence
       failed_when: presence.changed
+
+    - name: Get group informations
+      ansible.builtin.getent:
+        database: group
+        split: ':'
+    
+    - name: Check sudo permissions
+      assert:
+        that:
+          - "'alice' not in (ansible_facts.getent_group['sudo'][2] | split(','))"
+          - "'bob' in (ansible_facts.getent_group['sudo'][2] | split(','))"

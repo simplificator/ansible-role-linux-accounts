@@ -1,11 +1,19 @@
+- name: "Combine variables"
+  set_fact:
+    linux_accounts_users: "{{ linux_accounts_default_users | combine(linux_accounts_additional_users) }}"
+    linux_accounts_sudo_users: "{{ linux_accounts_default_sudo_users + linux_accounts_additional_sudo_users }}"
+
+- name: "Install sudo package"
+  apt:
+    pkg: "sudo"
+    state: "present"
+    update_cache: yes
+    cache_valid_time: 3600
+
 - name: "Ensure group {{ linux_accounts_group }} exists"
   group:
     name: "{{ linux_accounts_group }}"
     state: present
-
-- name: "Combine variables"
-  set_fact:
-    linux_accounts_users: "{{ linux_accounts_default_users | combine(linux_accounts_additional_users) }}"
 
 - name: "Create user accounts"
   user:
@@ -14,6 +22,13 @@
     groups: "{{ linux_accounts_group }}"
     append: yes
   loop: "{{ lookup('ansible.builtin.dict', linux_accounts_users) }}"
+
+- name: Grant sudo privileges
+  user: 
+    name: "{{ item }}"
+    groups: sudo
+    append: yes
+  loop: "{{ linux_accounts_sudo_users }}"
 
 - name: "Create .ssh directory for user accounts"
   file:
