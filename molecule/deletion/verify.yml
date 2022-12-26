@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Get information about user "charlie"
+      getent:
+        database: passwd
+        fail_key: false
+        key: charlie
+
+    - name: Check if charlie is deleted
+      assert:
+        that:
+          - "ansible_facts.getent_passwd['charlie'] == None"

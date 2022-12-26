@@ -1,0 +1,15 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: "Prepare user group"
+      group:
+        name: "{{ linux_accounts_group }}"
+        state: present
+
+    - name: "Create user account to be deleted"
+      user:
+        name: "charlie"
+        shell: "/bin/bash"
+        groups: "{{ linux_accounts_group }}"
+        append: yes 

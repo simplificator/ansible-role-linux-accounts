@@ -46,3 +46,22 @@
     owner: "{{ item.key }}"
     group: "{{ item.key }}"
   loop: "{{ lookup('ansible.builtin.dict', linux_accounts_users) }}"
+
+- name: Get group informations
+  ansible.builtin.getent:
+    database: group
+    split: ':'
+
+- name: "Get users in {{ linux_accounts_group }} group"
+  set_fact:
+    users_in_group: "{{ ansible_facts.getent_group[linux_accounts_group][2] | split(',') }}"
+
+- name: "Set accounts to be removed"
+  set_fact:
+    accounts_to_be_removed: "{{ users_in_group | reject('in', (linux_accounts_users.keys()|list)) }}"
+
+- name: "Remove accounts"
+  user: 
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ accounts_to_be_removed }}"
