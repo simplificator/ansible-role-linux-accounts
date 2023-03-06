@@ -1,5 +1,7 @@
 # Ansible Role: Linux Accounts
 
+[![CI](https://github.com/simplificator/ansible-role-linux-accounts/workflows/CI/badge.svg?event=push)](https://github.com/simplificator/ansible-role-linux-accounts/actions?query=workflow%3ACI)
+
 An Ansible role to provision multiple Linux accounts including SSH keys.
 
 ## Requirements
