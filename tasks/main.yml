@@ -10,6 +10,14 @@
     update_cache: yes
     cache_valid_time: 3600
 
+- name: Enable passwordless sudo
+  template:
+    src: "passwordless-sudo.j2"
+    dest: "/etc/sudoers.d/passwordless-sudo"
+    owner: root
+    group: root
+    mode: "770"
+
 - name: "Ensure group {{ linux_accounts_group }} exists"
   group:
     name: "{{ linux_accounts_group }}"
