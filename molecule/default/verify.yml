@@ -2,10 +2,18 @@
 - name: Verify
   hosts: all
   tasks:
-    - name: Check authorized key for Bob
+    - name: Check authorized key 1 for Bob
       lineinfile:
         dest: /home/bob/.ssh/authorized_keys
-        line: bobssshkey
+        line: bobssshkey1
+      check_mode: true
+      register: presence
+      failed_when: presence.changed
+
+    - name: Check authorized key 2 for Bob
+      lineinfile:
+        dest: /home/bob/.ssh/authorized_keys
+        line: bobssshkey2
       check_mode: true
       register: presence
       failed_when: presence.changed

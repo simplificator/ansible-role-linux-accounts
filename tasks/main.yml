@@ -49,7 +49,7 @@
 
 - name: Add authorized key for user accounts
   copy:
-    content: "{{ item.value }}\n"
+    content: "{{ item.value | join('\n') }}\n"
     dest: "~{{ item.key }}/.ssh/authorized_keys"
     owner: "{{ item.key }}"
     group: "{{ item.key }}"
