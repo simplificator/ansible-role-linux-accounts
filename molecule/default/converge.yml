@@ -8,11 +8,11 @@
 
   vars:
     linux_accounts_additional_users: {
-      "bob": "bobssshkey"
+      "bob": [ "bobssshkey1", "bobssshkey2" ]
     }
 
     linux_accounts_default_users: {
-      "alice": "alicessshkey"
+      "alice": [ "alicessshkey" ]
     }
 
     linux_accounts_additional_sudo_users:

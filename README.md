@@ -12,7 +12,7 @@ N/A
 
 You need to define the following variable:
 
-* `linux_accounts_default_users`: A dictionary of user account names and their SSH key.
+* `linux_accounts_default_users`: A dictionary of user account names and a list of their SSH keys.
 * `linux_accounts_group`: Name of the group which will be created and users will be added. Note that any users in this group that aren't mentioned in `linux_accounts_default_users` nor `linux_accounts_additional_users` will be deleted.
 * `linux_accounts_default_sudo_users`: List of user names that will be added to the sudo group.
 
