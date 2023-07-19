@@ -32,7 +32,7 @@
   loop: "{{ lookup('ansible.builtin.dict', linux_accounts_users) }}"
 
 - name: Grant sudo privileges
-  user: 
+  user:
     name: "{{ item }}"
     groups: sudo
     append: yes
@@ -58,7 +58,7 @@
 - name: Get group informations
   ansible.builtin.getent:
     database: group
-    split: ':'
+    split: ":"
 
 - name: "Get users in {{ linux_accounts_group }} group"
   set_fact:
@@ -69,7 +69,7 @@
     accounts_to_be_removed: "{{ users_in_group | reject('in', (linux_accounts_users.keys()|list)) }}"
 
 - name: "Remove accounts"
-  user: 
+  user:
     name: "{{ item }}"
     state: absent
-  loop: "{{ accounts_to_be_removed }}"
+  loop: "{{ accounts_to_be_removed | difference(linux_accounts_to_keep) }}"

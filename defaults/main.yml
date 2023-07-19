@@ -5,3 +5,5 @@ linux_accounts_default_users: []
 
 linux_accounts_additional_sudo_users: []
 linux_accounts_default_sudo_users: []
+
+linux_accounts_to_keep: []

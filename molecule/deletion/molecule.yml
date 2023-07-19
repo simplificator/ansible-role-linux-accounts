@@ -27,6 +27,9 @@ provisioner:
         linux_accounts_additional_sudo_users:
           - "bob"
 
+        linux_accounts_to_keep:
+          - "dave"
+
         linux_accounts_group: "accounts"
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}

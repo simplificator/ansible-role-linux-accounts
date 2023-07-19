@@ -12,3 +12,9 @@
       assert:
         that:
           - "ansible_facts.getent_passwd['charlie'] == None"
+
+    - name: Get information about user "dave" to check if still present
+      getent:
+        database: passwd
+        fail_key: true
+        key: dave
