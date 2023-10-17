@@ -18,3 +18,15 @@
         database: passwd
         fail_key: true
         key: dave
+
+    - name: Get sudo group members
+      getent:
+        database: group
+        key: sudo
+      register: sudo_group
+      changed_when: false
+
+    - name: Assert 'erwin' is not in 'sudo' group
+      assert:
+        that:
+          - "'erwin' not in sudo_group['ansible_facts']['getent_group']['sudo'][2].split(',')"  # Index 2 typically holds the user list for the group.
