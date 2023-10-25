@@ -1,10 +1,10 @@
 - name: Get groups for user '{{ user }}'
-  command: "groups {{ user }}"
+  command: "id -nG {{ user }}"
   register: current_groups
   changed_when: false
 
 - name: Revoke 'sudo' for '{{ user }}'
   user:
     name: "{{ user }}"
-    groups: "{{ current_groups.stdout | replace(user + ' : ', '') | replace('sudo', '') | split }}"
+    groups: "{{ current_groups.stdout | replace('sudo', '') | split }}"
     append: no
