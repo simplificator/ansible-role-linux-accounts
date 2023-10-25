@@ -38,6 +38,25 @@
     append: yes
   loop: "{{ linux_accounts_sudo_users }}"
 
+- name: Get sudo group informations
+  getent:
+    database: group
+    key: sudo
+
+- name: "Get users in sudo group"
+  set_fact:
+    users_in_sudo_group: "{{ ansible_facts.getent_group['sudo'][2] | split(',') }}"
+
+- name: "Set accounts to revoke sudo permissions"
+  set_fact:
+    sudo_to_be_removed: "{{ users_in_sudo_group | difference(linux_accounts_sudo_users) }}"
+
+- name: "Revoke sudo permissions"
+  include_tasks: revoke-sudo.yml
+  loop: "{{ sudo_to_be_removed | difference(linux_accounts_sudo_users) }}"
+  loop_control:
+    loop_var: user
+
 - name: "Create .ssh directory for user accounts"
   file:
     path: "~{{ item.key }}/.ssh"
@@ -66,7 +85,7 @@
 
 - name: "Set accounts to be removed"
   set_fact:
-    accounts_to_be_removed: "{{ users_in_group | reject('in', (linux_accounts_users.keys()|list)) }}"
+    accounts_to_be_removed: "{{ users_in_group | difference(linux_accounts_users.keys()|list) }}"
 
 - name: "Remove accounts"
   user:

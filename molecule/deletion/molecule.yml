@@ -22,7 +22,7 @@ provisioner:
       all:
         linux_accounts_additional_users: { "bob": "bobssshkey" }
 
-        linux_accounts_default_users: { "alice": "alicessshkey" }
+        linux_accounts_default_users: { "alice": "alicessshkey", "erwin": "erwinsshkey" }
 
         linux_accounts_additional_sudo_users:
           - "bob"

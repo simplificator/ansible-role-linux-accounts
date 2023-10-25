@@ -16,3 +16,10 @@
       loop:
         - "charlie"
         - "dave"
+        - "erwin"
+
+    - name: Grant sudo privileges to erwin
+      user:
+        name: "erwin"
+        groups: sudo
+        append: yes
